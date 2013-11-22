@@ -41,12 +41,14 @@ describe 'StandardPaginator', ->
       expect(subject.numPages()).toEqual(31)
 
     describe '.isCenterWindow', ->
-      xit 'should be in the center window if the current page is not in the right window', ->
+      it 'should be in the center window if the current page is not in the right window', ->
         # unfortunately we have to know something about the internal
         # implementation of window size to test the center window:
         expect(subject.windowSize.right).toEqual(5)
 
-        subject.pagination.current_page = 28
+        subject.pagination.current_page = 25
+        # we expect the pages to look like:
+        # [ 1, '...', 23, 24, 25, 26, 27, '...', 31]
         expect(subject.isCenterWindow()).toBeTruthy()
 
       it 'should not be in the center window if the current page is in the right window', ->
@@ -54,6 +56,8 @@ describe 'StandardPaginator', ->
         # implementation of window size to test the center window:
         expect(subject.windowSize.right).toEqual(5)
 
+        # we expect the pages to look like:
+        # [ 1, '...', 27, 28, 29 30 31]
         subject.pagination.current_page = 30
         expect(subject.isCenterWindow()).toBeFalsy()
 
